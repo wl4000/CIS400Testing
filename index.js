@@ -12,6 +12,14 @@ module.exports = app => {
     return context.github.issues.createComment(issueComment)
   })
 
+  app.on('pull_request.opened', async context => {
+    app.log('pull request opened')
+    const pullRequestComment = context.issue({ body: 'Thanks for opening this pull request!' })
+    const files = await context.github.pullRequests.getFiles(context.issue())
+    app.log(files)
+    return context.github.issues.createComment(pullRequestComment)
+  })
+
   // For more information on building apps:
   // https://probot.github.io/docs/
 
